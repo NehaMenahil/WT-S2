@@ -1,193 +1,83 @@
-console.log("Code starting");
-
-
-/*$(function() {
-    //Checking the binding here
-    $("#addbtn").click(HandleBtnClick)
-
-}); 
-
-function HandleBtnClick()
-{
-    alert("Button clicked");
-}*/
-
-$(function(){
-   var name, Email;
-   $("#addbtn").on("click",handleAddBtnClick);
-   $("#resetbtn").on("click",resetForm);
-   var enRemovelink=true;
-   $("a").click(updateOnTable);
-   $("#addbtn").removeClass('disabled');
-   $(".updatebtn").addClass('disabled');
+$(function () {
+    loadRecipies();
+    $("#recipes").on("click", ".btn-danger", handleDelete);
+    $("#recipes").on("click", ".btn-warning", handleUpdate);
+    $("#addBtn").click(addRecipe);
+    $("#updateSave").click(function () {
+        var id = $("#updateId").val();
+        var title = $("#updateTitle").val();
+        $.ajax({
+            url: "https://jsonplaceholder.typicode.com/albums/" + id,
+            data: { title },
+            method: "PUT",
+            success: function (response) {
+                console.log(response);
+                loadRecipies();
+                $("#updateModal").modal("hide");
+            }
+        });
+    });
 });
-function handleAddBtnClick(){
-   if(!($("#addbtn").hasClass('disabled')))
-   {
-       name=$("#name").val();
-       Email=$("#Email").val();
-       
-       $('#Email').parent().find("#spa").remove();
-       $('#name').parent().find("#spn").remove();
-        $('#select').parent().find("#spc").remove();
-
-       if(checkInput()){
-           $("#Email").removeClass("error")
-           $("#name").removeClass("error")
-         
-           $("#tbody").append("<tr><td id="+"added_name"+">"+name+
-           "</td><td id="+
-           "added_Email"+">"+Email+"</td><td><a href="+"#"+" class="+"updatelink"+">"+
-           "Update"+"</a></td></tr>");
-       $('a').css('color','black');
-       enRemovelink=true;
-           $("a").click(updateOnTable);
-       resetForm();
-       }
-       else{return;}
-   }
-   else{
-       return;
-   }
-    
+function handleUpdate() {
+    var btn = $(this);
+    var parentDiv = btn.closest(".recipe");
+    let id = parentDiv.attr("data-id");
+    $.get("https://jsonplaceholder.typicode.com/albums/" + id, function (
+        response
+    ) {
+        $("#updateId").val(response.id);
+        $("#updateTitle").val(response.title);
+        $("#updateModal").modal("show");
+    });
 }
-function resetForm(){
-   
-    if($("#addbtn").hasClass('disabled')){
-       $("#addbtn").removeClass('disabled');
-   }
-  
-   if(!($(".updatebtn").hasClass('disabled'))){
-       $(".updatebtn").addClass('disabled');
-   }
-   if($('.removelink').hasClass('disabled')){
-       $('removelink').removeClass('disabled');
-       $('.removelink').attr('href','#');
-           enRemovelink=true;
-   }
+function addRecipe() {
+    var title = $("#title").val();
 
-  
-   $('#Email').parent().find("#spa").remove();
-   $('#name').parent().find("#spn").remove();
-   $('#select').parent().find("#spc").remove();
-   $("#Email").removeClass("error")
-   $("#name").removeClass("error")
-   $("#select").removeClass("error")
-   $("#name").val("")
-   $("#Email").val("");
-       
-}
-function updateOnTable(){
-   var $sname = $(this).closest("tr")   
-                      .find("#added_name")     
-                      .text();      
-           
-   var $sEmail = $(this).closest("tr") 
-                      .find("#added_Email")  
-                      .text();         
-        
-   
-   if($(this).hasClass("updatelink"))
-   {
-       $('.removelink').removeAttr('href');
-       enRemovelink=false;
-       
-  
-    $(".updatebtn").removeClass('disabled');
-    $("#addbtn").addClass('disabled');
-   $('.removelink').addClass('disabled');
+    $.ajax({
+        url: "https://jsonplaceholder.typicode.com/albums",
+        method: "POST",
+        data: { title },
+        success: function (response) {
+            console.log(response);
+            $("#title").val("");
 
-   
-   $("#name").val($sname)
-   $("#Email").val($sEmail);
-   
-   }
-   else
-   {
-       if(enRemovelink==true){
-           $(this).parent().parent().remove();
-       }
-   }
-   var row=$(this).closest("tr");
-   $(".updatebtn").unbind().click(function(){
-
-       if(!($(".updatebtn").hasClass('disabled'))){
-           $('#Email').parent().find("#spa").remove();
-       $('#name').parent().find("#spn").remove();
-       $('#select').parent().find("#spc").remove();
-       if(checkInput()){
-           $("#Email").removeClass("error")
-           $("#name").removeClass("error")
-           $("#select").removeClass("error")
-           row.find("td:eq(0)").text($("#name").val());
-           row.find("td:eq(1)").text($("input[type='radio']:checked").val());
-           row.find("td:eq(2)").text($("#Email").val());
-           row.find("td:eq(3)").text($("#select option:selected").val());
-           $('.removelink').attr('href','#');
-           enRemovelink=true;
-       }
-       else{
-           return;
-       }
-
-       }
-       else{
-           return;
-       }
-   });
-   
-}
-function checkInput(){
-   var bool=true;
-   if(!correctEmail()){
-       bool=false
-   }
-   if(!correctName()){
-       bool= false;
-   }
-  
-   return bool;
-}
-
-function correctEmail(){
-   var givenEmail=$("#Email").val();
-   
-   var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-        if(!regex.test(Email)) {
-            $("#Email").addClass("error")
-            $('#Email').parent().append('<span id="spa">Email should be in Alpha-numeric value.</span>');
-           return false;
+            loadRecipies();
+            $("#addModal").modal("hide");
         }
-    
-            $("#Email").removeClass("error")
-           return true;
+    });
+}
+function handleDelete() {
+    var btn = $(this);
+    var parentDiv = btn.closest(".recipe");
+    let id = parentDiv.attr("data-id");
+    console.log(id);
+    $.ajax({
+        url: "https://jsonplaceholder.typicode.com/albums/" + id,
+        method: "DELETE",
+        success: function () {
+            loadRecipies();
         }
-
-
-
-
-function correctName(){
-       var wrongexp= new RegExp('[^A-Za-z]');
-       var givenName=$("#name").val();
-if(givenName.match(wrongexp) && !!givenName)  
-{
-   $("#name").addClass("error")
-   $('#name').parent().append('<span id="spn">Name should be in upper or lower case only.Also no space allowed!</span>');
-   return false;
+    });
 }
-if(givenName.length>10){
-   $("#name").addClass("error")
-   $('#name').parent().append('<span id="spn">Name must not exceed 10 alphabets.</span>');
-   return false;
+function loadRecipies() {
+    $.ajax({
+        url: "https://jsonplaceholder.typicode.com/albums",
+        method: "GET",
+        error: function (response) {
+            var recipes = $("#recipes");
+            recipes.html("An Error has occured");
+        },
+        success: function (response) {
+            console.log(response);
+            var recipes = $("#recipes");
+            recipes.empty();
+            for (var i = 0; i < response.length; i++) {
+                var rec = response[i];
+                recipes.append(
+                    `<div class="recipe" data-id="${rec.id}"><h3>${rec.id}</h3><p><button class="btn btn-danger btn-sm float-right">delete</button><button class="btn btn-warning btn-sm float-right">Edit</button> ${rec.title}</p></div>`
+                );
+                // recipes.append("<div><h3>" + rec.title + "</h3></div>");
+            }
+        }
+    });
 }
-if(!givenName){
-   $("#name").addClass("error")
-   $('#name').parent().append('<span id="spn">Field can not be left empty.</span>');
-   return false;
-}
-$("#name").removeClass("error")
-return true;
-}
-
-
-console.log("Code Finished");
