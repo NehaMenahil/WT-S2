@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WT Sessional 2</title>
+    <link rel="stylesheet" href="myStylesheet.css" />
+    <script src="jquery-3.6.0.min.js"></script>
+    <script src="myJquery.js"></script>
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+
+</head>
+<body>
+    
+    <div class="container">
+        <div class="row">
+          <div class="col-lg-7">
+            <table
+            class="table caption-top table-striped table-hover"
+            style="border: 1px solid grey"
+            >
+              <caption style="caption-side: top; font-weight: bold; font-family: Geneva; color: black">
+                User's List
+              </caption>
+
+              <thead
+                class="table-secondary"
+                style="background-color: rgb(180, 178, 178)">
+                <tr>
+                  <td>Name</td>
+                  <td>Email Address</td>
+                 
+                  <td style="width: 200px">Settings</td>
+                </tr>
+              </thead>
+              <tbody id="tbody"></tbody>
+            </table>
+
+          </div>
+          <div class="col-lg-5">
+            <label for="topform" style="margin-top: 15px; font-family: Geneva; font-weight: bold"
+              > Enter user details</label
+            >
+            <div class="outsideform">
+              <form id="input-form" class="form" style="margin: 20px">
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <label for="name">Name:</label>
+                    </div>
+
+                    <div class="col-sm-7">
+                      <input
+                        type="name"
+                        id="name"
+                        placeholder="Enter Name"
+                        name="name"
+                      />
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <label for="age">Email:</label>
+                    </div>
+                    <div class="col-sm-7">
+                      <input type="Email" id="Email" placeholder="Enter Email"
+                      name="Email" />
+                    </div>
+                  </div>
+                </div>
+
+              </form>
+              <div class="btn">
+                
+                <button id="resetbtn" class="btn btn-success">Reset</button>
+                <button id="updatebtn" class="btn btn-warning">Update</button>
+                <button id="addbtn" class="btn btn-danger">Add</button>
+         
+              
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+</body>
+</html>

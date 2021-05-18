@@ -1,0 +1,44 @@
+
+h1{
+
+    margin-top: 30px;
+    padding-top: 30px;
+    padding-left: 10px;
+}
+
+table
+{
+    text-align: center;
+    color: black;
+    background-color: whitesmoke;
+}
+
+
+.btn button{
+    width: 100px;
+    float:right;
+    margin-right: 10px;
+    margin-top: 10px;
+    
+}
+.form div div div{
+    margin: 10px
+}
+.outsideform{
+    border: 1px solid grey;
+    width: 400px;
+    overflow: hidden;
+    
+}
+.error{
+    border: 1px solid red;
+}
+#spn{
+color: red;
+}
+#spa {
+    color: red;
+}
+#spc {
+    color: red;
+}
