@@ -1,100 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WT Sessional 2</title>
-    <link rel="stylesheet" href="myStylesheet.css" />
-    <script src="jquery-3.6.0.min.js"></script>
-    <script src="myJquery.js"></script>
-
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-      crossorigin="anonymous"
-    />
-
+  <script src="jquery-3.6.0.min.js"></script>
+  <script src="popper.min.js"></script>
+  <script src="bootstrap.min.js"></script>
+  <link rel="stylesheet" href="bootstrap.min.css" />
+  <script src="jqcrud.js"></script>
 </head>
-<body>
-    
-    <div class="container">
-        <div class="row">
-          <div class="col-lg-7">
-            <table
-            class="table caption-top table-striped table-hover"
-            style="border: 1px solid grey"
-            >
-              <caption style="caption-side: top; font-weight: bold; font-family: Geneva; color: black">
-                User's List
-              </caption>
 
-              <thead
-                class="table-secondary"
-                style="background-color: rgb(180, 178, 178)">
-                <tr>
-                  <td>Name</td>
-                  <td>Email Address</td>
-                 
-                  <td style="width: 200px">Settings</td>
-                </tr>
-              </thead>
-              <tbody id="tbody"></tbody>
-            </table>
 
+<body class="container">
+  <div>
+    <a href="Album.html"><Button class="btn btncstm btnnav">Albums</Button></a>
+
+    <h1>User API Client</h1>
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addModal">
+      Add User
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add New User</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>
-          <div class="col-lg-5">
-            <label for="topform" style="margin-top: 15px; font-family: Geneva; font-weight: bold"
-              > Enter user details</label
-            >
-            <div class="outsideform">
-              <form id="input-form" class="form" style="margin: 20px">
-                <div class="form-group">
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <label for="name">Name:</label>
-                    </div>
-
-                    <div class="col-sm-7">
-                      <input
-                        type="name"
-                        id="name"
-                        placeholder="Enter Name"
-                        name="name"
-                      />
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="form-group">
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <label for="age">Email:</label>
-                    </div>
-                    <div class="col-sm-7">
-                      <input type="Email" id="Email" placeholder="Enter Email"
-                      name="Email" />
-                    </div>
-                  </div>
-                </div>
-
-              </form>
-              <div class="btn">
-                
-                <button id="resetbtn" class="btn btn-success">Reset</button>
-                <button id="updatebtn" class="btn btn-warning">Update</button>
-                <button id="addbtn" class="btn btn-danger">Add</button>
-         
-              
-
-              </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="title">Name</label>
+              <input type="text" class="form-control" name="title" id="title" aria-describedby="titleHelp"
+                placeholder="User Name" />
+              <small id="titleHelp" class="form-text text-muted">Enter Name</small>
             </div>
+            <div class="form-group">
+              <label for="body">Email</label>
+              <input type="email" class="form-control" name="body" id="body" aria-describedby="bodyHelp"
+                placeholder="User Email" />
+              <small id="bodyHelp" class="form-text text-muted">Enter Email</small>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button id="addBtn" class="btn btn-info">Add User</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+              Close
+            </button>
           </div>
         </div>
       </div>
+    </div>
 
+    <div id="recipes">
+      Loading ...
+    </div>
 
-
+    <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Update Record</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" id="updateId" /> <br />
+            <div class="form-group">
+              <label for="updateTitle">Name</label>
+              <input type="text" class="form-control" name="updateTitle" id="updateTitle"
+                aria-describedby="updateHelpId" placeholder="" disabled />
+            </div>
+            <div class="form-group">
+              <label for="updateBody">Email</label>
+              <input type="email" class="form-control" name="updateBody" id="updateBody" aria-describedby="updateHelpId"
+                placeholder="Enter Email here" />
+              <small id="updateHelpId" class="form-text text-muted">Enter Email to Update</small>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button id="updateSave" class="btn btn-primary">Update</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
+
 </html>
